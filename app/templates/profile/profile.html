@@ -24,13 +24,13 @@
       <img src="{{profile_pic_path}}" class="rounded-circle account-img mt-2" alt="woman avatar">
     </div>
     <div class="card-body">
-      <h4 class="card-title text-center">{{current_user.username | capitalize}}</h4>
+      <h4 class="card-title text-center">{{user.username | capitalize}}</h4>
       <hr>
       <p> {{current_user.email}} </p>
 
       <!--Displaying user bio-->
     {% if user.bio %}
-      <p><i class="fas fa-quote-left"></i> {{current_user.bio}} <i class="fas fa-quote-right"></i> </p>
+      <p><i class="fas fa-quote-left"></i> {{user.bio}} <i class="fas fa-quote-right"></i> </p>
       <button class="btn btn-sm btn-info" id="showform"> Update Profile</button>
       {%else%}
       <p> {{user.username | capitalize}} has no bio </p>
@@ -44,8 +44,11 @@
   <div class="col-md-6">
       <div class="container mt-4" >
         <div id="profileupdate">
-          <h2>Update Your Profile Here</h2>
-            {{wtf.quick_form(form)}}
+          {% if user == current_user %}
+            <a href="{{url_for('main.update_profile',uname=user.username)}}">Update Your Profile Here</a>
+        {% endif %}
+          <!-- <h2>Update Your Profile Here</h2>
+            {#{{wtf.quick_form(form)}}#} -->
         </div>
       </div>
   </div>
