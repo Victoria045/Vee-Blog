@@ -5,7 +5,7 @@ from ..models import User,Blog,Comment,Subscriber
 from ..requests import get_quotes
 from .forms import UpdateProfile, CreateBlog
 from .. import db,photos
-# from PIL import Image
+from PIL import Image
 import secrets 
 import os 
 
@@ -19,6 +19,17 @@ def index():
     return render_template('index.html',quote=quotes, blogs=blogs) 
 
 
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first() 
+
+    # image_file = url_for('static', filename='profile_pics/' + current_user.profile_pic_path)
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -31,41 +42,30 @@ def save_picture(form_picture):
     i.save(picture_path)
     return picture_filename
 
+# @main.route('/profile',methods = ['POST','GET'])
+# def profile():
+    #user = User.query.filter_by(username = uname).first()
+    # form = UpdateProfile()
+    # if form.validate_on_submit():
+    #     if form.profile_picture.data:
+    #         picture_file = save_picture(form.profile_picture.data)
+    #         current_user.profile_pic_path = picture_file
+    #     current_user.username = form.username.data
+    #     current_user.email = form.email.data
+    #     current_user.bio = form.bio.data
+    #     db.session.commit()
+    #     flash('Succesfully updated your profile','success')
+    #     return redirect(url_for('main.profile'))
+    # elif request.method == 'GET':
+    #     form.username.data = current_user.username
+    #     form.email.data = current_user.email
+    #     form.bio.data = current_user.bio
 
-@main.route('/user/<uname>')
-def profile(uname):
-    user = User.query.filter_by(username = uname).first() 
-
-    # image_file = url_for('static', filename='profile_pics/' + current_user.profile_pic_path)
-
-    if user is None:
-        abort(404)
-
-    return render_template("profile/profile.html", user = user)
-
-# @main.route('/user/<string:uname>',methods = ['POST','GET'])
-# def profile(uname):
-#     user = User.query.filter_by(username = uname).first()
-#     form = UpdateProfile()
-#     if form.validate_on_submit():
-#         if form.profile_picture.data:
-#             picture_file = save_picture(form.profile_picture.data)
-#             current_user.profile_pic_path = picture_file
-#         current_user.username = form.username.data
-#         current_user.email = form.email.data
-#         current_user.bio = form.bio.data
-#         db.session.commit()
-#         flash('Succesfully updated your profile')
-#         return redirect(url_for('main.profile'))
-#     elif request.method == 'GET':
-#         form.username.data = current_user.username
-#         form.email.data = current_user.email
-#         form.bio.data = current_user.bio
-#     profile_pic_path = url_for('static',filename = 'photos/'+ current_user.profile_pic_path)
-#     return render_template('profile/profile.html',user = user, profile_pic_path=profile_pic_path, form = form)
+    # profile_pic_path = url_for('static',filename = 'photos/'+ current_user.profile_pic_path)
+    # return render_template('profile/profile.html', profile_pic_path=profile_pic_path, form = form)
 
 
-@main.route('/user/<uname>/update',methods = ['GET','POST'])
+@main.route('/user/<uname>/update',methods = ['POST','GET'])
 @login_required
 def update_profile(uname):
     user = User.query.filter_by(username = uname).first()
