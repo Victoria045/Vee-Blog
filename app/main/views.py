@@ -19,26 +19,50 @@ def index():
     return render_template('index.html',quote=quotes, blogs=blogs) 
 
 
-# def save_picture(form_picture):
-#     random_hex = secrets.token_hex(8)
-#     _, f_ext = os.path.splitext(form_picture.filename)
-#     picture_filename = random_hex + f_ext
-#     picture_path = os.path.join('app/static/photos', picture_filename)
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_filename = random_hex + f_ext
+    picture_path = os.path.join('app/static/photos', picture_filename)
     
-#     output_size = (200, 200)
-#     i = Image.open(form_picture)
-#     i.thumbnail(output_size)
-#     i.save(picture_path)
-#     return picture_filename
+    output_size = (200, 200)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_filename
+
 
 @main.route('/user/<uname>')
 def profile(uname):
-    user = User.query.filter_by(username = uname).first()
+    user = User.query.filter_by(username = uname).first() 
+
+    # image_file = url_for('static', filename='profile_pics/' + current_user.profile_pic_path)
 
     if user is None:
         abort(404)
 
     return render_template("profile/profile.html", user = user)
+
+# @main.route('/user/<string:uname>',methods = ['POST','GET'])
+# def profile(uname):
+#     user = User.query.filter_by(username = uname).first()
+#     form = UpdateProfile()
+#     if form.validate_on_submit():
+#         if form.profile_picture.data:
+#             picture_file = save_picture(form.profile_picture.data)
+#             current_user.profile_pic_path = picture_file
+#         current_user.username = form.username.data
+#         current_user.email = form.email.data
+#         current_user.bio = form.bio.data
+#         db.session.commit()
+#         flash('Succesfully updated your profile')
+#         return redirect(url_for('main.profile'))
+#     elif request.method == 'GET':
+#         form.username.data = current_user.username
+#         form.email.data = current_user.email
+#         form.bio.data = current_user.bio
+#     profile_pic_path = url_for('static',filename = 'photos/'+ current_user.profile_pic_path)
+#     return render_template('profile/profile.html',user = user, profile_pic_path=profile_pic_path, form = form)
 
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
@@ -72,6 +96,7 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname)) 
 
+
 @main.route('/new_post', methods=['POST','GET'])
 @login_required
 def new_blog():
@@ -84,10 +109,12 @@ def new_blog():
         blog = Blog(title=title,content=content,user_id=user_id)
         blog.save()
         for subscriber in subscribers:
-            mail_message("New Blog Post","email/new_blog",subscriber.email,blog=blog)
-        return redirect(url_for('main.index'))
-        flash('You Posted a new Blog')
+            # mail_message("New Blog Post","email/new_blog",subscriber.email,blog=blog)
+            flash('You Posted a new Blog')
+            return redirect(url_for('main.index'))
+        # flash('You Posted a new Blog')
     return render_template('newblog.html', form = form)
+
 
 @main.route('/blog/<id>')
 def blog(id):
@@ -127,12 +154,17 @@ def comment(blog_id):
 
 @main.route('/subscribe',methods = ['POST','GET'])
 def subscribe():
+    subscribers = Subscriber.query.all()
     email = request.form.get('subscriber')
     new_subscriber = Subscriber(email = email)
     new_subscriber.save_subscriber()
-    mail_message("Subscribed to D-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
-    flash('Sucessfuly subscribed')
-    return redirect(url_for('main.index'))
+    # mail_message("Subscribed to D-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
+    for subscriber in subscribers:
+            # mail_message("New Blog Post","email/new_blog",subscriber.email,blog=blog)
+            flash('Sucessfuly subscribed')
+            return redirect(url_for('main.index'))
+    # flash('Sucessfuly subscribed')
+    # return redirect(url_for('main.index'))
 
 @main.route('/blog/<blog_id>/delete', methods = ['POST'])
 @login_required
@@ -143,7 +175,7 @@ def delete_post(blog_id):
     blog.delete()
     flash("You have deleted your Blog succesfully!")
     return redirect(url_for('main.index'))
-
+  
 
 @main.route('/user/<string:username>')
 def user_posts(username):

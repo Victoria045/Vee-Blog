@@ -33,6 +33,11 @@
                         <h4>All Comments</h4>
                         {% for comment in comments %}
                             <p class="mt-10"><span style="font-weight: bold">{{comment.user.username}} : </span> {{comment.comment}}</p>
+                            <span>
+                              {% if blog.user == current_user %}
+                             <button class="btn btn-sm btn-outline-danger m-1" data-toggle="modal" data-target="#modalConfirmDelete" type="submit">Delete </button>
+                            {% endif %}
+                            </span>
                         {% endfor %}
                     </div>
                 </div>  
