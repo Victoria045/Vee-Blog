@@ -2,6 +2,7 @@ from . import main
 from flask import render_template,request,redirect,url_for,abort,flash
 from flask_login import login_required, current_user
 from ..models import User,Blog,Comment,Subscriber 
+from ..requests import get_quotes
 from .forms import UpdateProfile, CreateBlog
 from .. import db,photos
 # from PIL import Image
@@ -12,9 +13,10 @@ import os
 # Views
 @main.route('/')
 def index():
+    quotes = get_quotes()
     page = request.args.get('page',1, type = int )
     blogs = Blog.query.order_by(Blog.time_posted.desc()).paginate(page = page, per_page = 3)
-    return render_template('index.html', blogs=blogs) 
+    return render_template('index.html',quote=quotes, blogs=blogs) 
 
 
 # def save_picture(form_picture):
@@ -115,7 +117,7 @@ def updateblog(blog_id):
 
 
 @main.route('/comment/<blog_id>', methods = ['Post','GET'])
-# @login_required
+@login_required
 def comment(blog_id):
     blog = Blog.query.get(blog_id)
     comment =request.form.get('newcomment')
