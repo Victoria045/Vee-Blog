@@ -1,10 +1,10 @@
 from . import main
 from flask import render_template,request,redirect,url_for,abort,flash
 from flask_login import login_required, current_user
-from ..models import User,blog,Comment,Subscriber 
+from ..models import User,Blog,Comment,Subscriber 
 from .forms import UpdateProfile, CreateBlog
 from .. import db,photos
-from PIL import image
+# from PIL import Image
 import secrets 
 import os 
 
@@ -17,17 +17,17 @@ def index():
     return render_template('index.html', blogs=blogs) 
 
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_filename = random_hex + f_ext
-    picture_path = os.path.join('app/static/photos', picture_filename)
+# def save_picture(form_picture):
+#     random_hex = secrets.token_hex(8)
+#     _, f_ext = os.path.splitext(form_picture.filename)
+#     picture_filename = random_hex + f_ext
+#     picture_path = os.path.join('app/static/photos', picture_filename)
     
-    output_size = (200, 200)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-    return picture_filename
+#     output_size = (200, 200)
+#     i = Image.open(form_picture)
+#     i.thumbnail(output_size)
+#     i.save(picture_path)
+#     return picture_filename
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -47,7 +47,7 @@ def update_profile(uname):
         abort(404)
 
     form = UpdateProfile()
-
+    
     if form.validate_on_submit():
         user.bio = form.bio.data
 
@@ -86,7 +86,7 @@ def new_blog():
         return redirect(url_for('main.index'))
         flash('You Posted a new Blog')
     return render_template('newblog.html', form = form)
-    
+
 @main.route('/blog/<id>')
 def blog(id):
     comments = Comment.query.filter_by(blog_id=id).all()
