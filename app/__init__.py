@@ -4,7 +4,7 @@ from config import config_options
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy 
 from flask_uploads import UploadSet, configure_uploads, IMAGES
-from flask_mail import mail  
+from flask_mail import Mail  
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 
@@ -39,6 +39,6 @@ def create_app(config_name):
     app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
 
     # configure UploadSet
-    configure_uploads(apps,photos)
+    configure_uploads(app,photos)
     
     return app
