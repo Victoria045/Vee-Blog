@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 
+<!-- Content block -->
 {% block content %}
     <div class="container landing">
         <div class="row ">
@@ -7,11 +8,11 @@
                 <div class="col-md-3 "><a class="btn btn-sm btn-info " id="ref" href="{{url_for('main.new_blog')}}">Post</a></div>
                 {% endif %}
             
-            <div class="col-md-9 "><h1 >Welcome to Vee-Blog</h1></div>
+            <!-- <div class="col-md-9 "><h1 class="text-center">Welcome to V-Blog</h1></div> -->
         </div>
 
         <div class="row">
-            <div class="col-md-8 ">
+            <div class="col-md-8">
                 {% for blog in blogs.items %}
                     <div class="container bg mb-2">
                         <hr>
@@ -46,34 +47,42 @@
                 {% endfor %}  
 
             </div>
-            <!-- <div class="col-md-4">
-                <div class="container"> -->
-                    <!-- <div class="card cardquote"> -->
-                        <!-- <div class="card-title">
-                            <h4>A quote by: <span style="color: rgb(3, 3, 3)">{#{{quote.author}}#}</span> </h4>
-                        </div> -->
-                        <!-- <p class="card-text">{#{{quote.quote}}#}</p> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-                <div class="container-fluid">
-                    {% for message in get_flashed_messages() %}
-                    <div class="alert alert-success">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{ message }}
+
+            <div class="col-md-4 mt-2">
+               <div class="container">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+                </div>
+                {% endfor %} 
+
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center">Subscribe for post notifications!</p>
+                        <form action="{{url_for('main.subscribe')}}" method="POST">
+                            <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Email address</label> -->
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email..">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
+                            </div>
+                            <div class="md-form form-group text-center">
+                                <button class="btn btn-sm btn-outline-info" id="subs">Subscribe</button>
+                            </div>
+                        </form> 
                     </div>
-                    {% endfor %}
-                    <form class="form-inline ml-2" action="{{url_for('main.subscribe')}}" method="POST">
-                        <div class="md-form form-group">
-                            <label class="white-color">Email Address...</label>
-                            <input type="email"  class="form-control " name ="subscriber" required>
-                        </div>
-                        <div class="md-form form-group">
-                            <button class="btn btn-sm btn-outline-info" id="subs">Subscribe</button>
-                        </div>
-                    </form>
+                    
                 </div>
             </div>
-        </div>
+        </div> 
+    </div>
     </div>
 
+    <!-- <div class="container"> -->
+        <blockquote class="blockquote text-center py-3">
+            <p class="mb-0">"{{quote.quote}}"</p>
+            <footer class="blockquote-footer">Quote by:  <cite title="Source Title">{{quote.author}}</cite></footer>
+          </blockquote>
+    <!-- </div> -->
+    
 {% endblock content %}
