@@ -4,7 +4,19 @@
 Built by: [Victoria Beryl](https://github.com/Victoria045)
 
 ## Description
-This a blog post site where the owner is able to create, update and delete blog post and the user can comment, view on the posted blogs and get subscriptions upon subscribing.
+This a blog post site where the owner is able to create, update and delete blog post and the user can comment, view on the posted blogs and get subscriptions upon subscribing. 
+
+# User Story 
+## As a user:
+* Able to comment.
+* View the most recent posts.
+* Post notifications by joining a subscription.
+* See random quotes. 
+## As a Writer:
+* Create account in the application by signing in.
+* Create blog from the site.
+* Delete comments that are insulting and degrading.
+* Update/Delete blogs created.
 
 #### Prerequisites 
 * python3.6
