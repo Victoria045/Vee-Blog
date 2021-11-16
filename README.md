@@ -18,6 +18,17 @@ This a blog post site where the owner is able to create, update and delete blog 
 * Delete comments that are insulting and degrading.
 * Update/Delete blogs created.
 
+## Behaviour Driven Development
+| Behaviour | Input | Output |
+| :---------------- | :---------------: | ------------------: |
+| Load the application | On application load | Display of all blogs uploaded |
+| Create account by SignUp | Enter email, username and password| Redirect to login|
+| Login selected | Enter username and password you signed up with| Redirect to home page|
+| Comment button selected | Comment | Input comment in a form and upload |
+| Click the submit button | CLick | Redirected to page wih all the comments made on the post |
+| Subscription | Email address |Message output on successfully subscribing |
+
+
 #### Prerequisites 
 * python3.6
 * pip
