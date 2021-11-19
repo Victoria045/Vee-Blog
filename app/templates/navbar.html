@@ -11,11 +11,11 @@
 
           </ul>
       <ul class="navbar-nav ml-auto">
-          {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated %}
 
-          <li><a href="{{url_for('main.profile',uname=current_user.username)}}" class="text-white"  style="font-size:18px">Account</a></li>
-          <li><a href="{{url_for('auth.logout')}}" style="font-size:18px" class="text-white px-4">Log out</a></li>
-          {% else %}
+        <li><a href="{{url_for('main.profile',uname=current_user.username)}}" class="text-white"  style="font-size:18px">Account</a></li>
+        <li><a href="{{url_for('auth.logout')}}" style="font-size:18px" class="text-white px-4">Log out</a></li>
+        {% else %}
             <li class="nav-item">
                 <a  class="nav-link mr-5" href="{{url_for('auth.login')}}" ><i class="fas fa-sign-in-alt"></i>&nbsp; <strong>Log In</strong></a>
             </li>
