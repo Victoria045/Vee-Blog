@@ -19,7 +19,7 @@ class CommentModelTest(unittest.TestCase):
 
 class CommentModelTest(unittest.TestCase):
     def setUp(self):
-        self.user_charles = User(username='cha', password='chako', email='test@test.com')
+        self.user_charles = User(username='Victoria', password=pass', email='vikki@gmail.com')
         self.new_blog = Blog(id=1, title='Test', content='This is a test blog', user_id=self.user_Victoria.id)
         self.new_comment = Comment(id=1, comment ='This is a test comment', user_id=self.user_Victoria.id, blog_id = self.new_blog.id )
 
