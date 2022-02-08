@@ -6,6 +6,9 @@ Built by: [Victoria Beryl](https://github.com/Victoria045)
 ## Description
 This a blog post site where the owner is able to create, update and delete blog post and the user can comment, view on the posted blogs and get subscriptions upon subscribing. 
 
+## Screenshot
+<img src="./static/photos/img1.png">
+
 # User Story 
 ## As a user:
 * Able to comment.
@@ -68,5 +71,6 @@ This a blog post site where the owner is able to create, update and delete blog 
 ## Support and contact details
 Incase of any issues at hand, please email me at victoriaberyl45@gmail.com
 
-### License
-MIT License. 
+### License 
+[![License](https://img.shields.io/packagist/l/loopline-systems/closeio-api-wrapper.svg)]
+(https://github.com/Victoria045/Vee-Blog/blob/master/LICENSE)
